@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1e1e1e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="duitrayaok" />
+  <title>duitrayaok — Duit Raya tracker</title>
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>duitrayaok</h1>
+    <p class="tagline">Track each child’s Duit Raya — saved on this device only</p>
+  </header>
+
+  <main class="main">
+    <section class="card" aria-labelledby="add-child-heading">
+      <h2 id="add-child-heading" class="card-title">Add child</h2>
+      <form id="form-child" class="form-row">
+        <label class="sr-only" for="child-name">Child name</label>
+        <input id="child-name" type="text" placeholder="Name" required maxlength="80" autocomplete="name" />
+        <button type="submit">Add</button>
+      </form>
+    </section>
+
+    <div id="children-root" class="children"></div>
+  </main>
+
+  <footer class="footer">
+    <p>Data stays in <strong>localStorage</strong>. Use <strong>Export</strong> on each card for a backup JSON.</p>
+    <p class="footer-pwa"><strong>Install as app:</strong> Android — <em>Install app</em>. iPhone — Share → <em>Add to Home Screen</em>.</p>
+    <p class="footer-donate">
+      <a class="donate-link" href="https://github.com/sponsors/rafieq-afed" target="_blank" rel="noopener noreferrer">Donate / support us</a>
+    </p>
+  </footer>
+
+  <template id="tpl-child">
+    <article class="card child" data-child-id="">
+      <header class="child-header">
+        <div>
+          <h2 class="child-title"></h2>
+          <p class="child-total" aria-live="polite"></p>
+        </div>
+        <div class="child-actions">
+          <button type="button" class="btn-ghost js-export" title="Download JSON">Export</button>
+          <button type="button" class="btn-ghost danger js-delete-child">Remove child</button>
+        </div>
+      </header>
+
+      <section class="entry-add" aria-label="Add money packet">
+        <h3 class="subheading">Add packet</h3>
+        <form class="form-grid js-form-entry">
+          <label>
+            Amount (RM)
+            <input type="number" name="amount" min="0" step="0.01" required placeholder="0.00" />
+          </label>
+          <label>
+            Date
+            <input type="date" name="date" required />
+          </label>
+          <label class="span-2">
+            From / note
+            <input type="text" name="note" maxlength="200" placeholder="e.g. Pak Ngah" />
+          </label>
+          <div class="form-actions">
+            <button type="submit">Add entry</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="entries-wrap" aria-label="Entries">
+        <h3 class="subheading">Entries</h3>
+        <ul class="entry-list js-entry-list"></ul>
+        <p class="empty-hint js-empty" hidden>No entries yet.</p>
+      </section>
+    </article>
+  </template>
+
+  <template id="tpl-entry">
+    <li class="entry-row" data-entry-id="">
+      <div class="entry-main">
+        <span class="entry-amount"></span>
+        <span class="entry-meta"></span>
+      </div>
+      <button type="button" class="btn-icon danger js-delete-entry" aria-label="Remove entry">×</button>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
